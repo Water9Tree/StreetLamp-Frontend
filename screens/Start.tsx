@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import Icon from "react-native-paper/src/components/Icon";
 
-function Start() {
+function Start({ navigation }) {
   return (
     <View style={styles.container}>
       <View
@@ -31,11 +31,14 @@ function Start() {
         <Button
           style={{ marginRight: 10 }}
           mode="outlined"
-          onPress={() => console.log("Pressed")}
+          onPress={() => navigation.navigate("SignUp")}
         >
           회원가입
         </Button>
-        <Button mode="contained-tonal" onPress={() => console.log("Pressed")}>
+        <Button
+          mode="contained-tonal"
+          onPress={() => navigation.navigate("SignIn")}
+        >
           로그인
         </Button>
       </View>
