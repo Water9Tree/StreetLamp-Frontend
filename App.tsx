@@ -1,57 +1,22 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View } from "react-native";
-import { Button, PaperProvider, Text } from "react-native-paper";
-import Icon from "react-native-paper/src/components/Icon";
+import { PaperProvider } from "react-native-paper";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Start from "./screens/Start";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <PaperProvider>
-      <View style={styles.container}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 30,
-          }}
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+          initialRouteName="Start"
         >
-          <Icon size={70} source="floor-lamp-torchiere-outline"></Icon>
-          <Text variant="displaySmall">PNU</Text>
-        </View>
-        <Text variant="headlineMedium">가로등 모니터링 서비스</Text>
-        <View
-          style={{
-            position: "absolute",
-            bottom: 130,
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            style={{ marginRight: 10 }}
-            mode="outlined"
-            onPress={() => console.log("Pressed")}
-          >
-            회원가입
-          </Button>
-          <Button mode="contained-tonal" onPress={() => console.log("Pressed")}>
-            로그인
-          </Button>
-        </View>
-        <StatusBar style="auto" />
-      </View>
+          <Stack.Screen name="Start" component={Start} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    position: "relative",
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
