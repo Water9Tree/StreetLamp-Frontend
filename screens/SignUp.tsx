@@ -6,6 +6,7 @@ import HeaderBar from "../components/HeaderBar";
 function SignUp({ navigation }) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
+  const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
   const pwRef = useRef();
 
   const handleSubmitButtonPress = () => {
@@ -48,8 +49,15 @@ function SignUp({ navigation }) {
             onChangeText={(text) => setPw({ value: text, error: "" })}
             onSubmitEditing={handleSubmitButtonPress}
             error={Boolean(pw.error)}
-            secureTextEntry
-            right={<TextInput.Icon icon="eye" />}
+            secureTextEntry={pwSecureTextEntry}
+            right={
+              <TextInput.Icon
+                icon={pwSecureTextEntry ? "eye-off" : "eye"}
+                onPress={() => {
+                  setPwSecureTextEntry((prev) => !prev);
+                }}
+              />
+            }
           />
           <HelperText type="error" visible={Boolean(pw.error)}>
             {pw.error}
