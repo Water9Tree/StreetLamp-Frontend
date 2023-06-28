@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { HelperText, TextInput } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
@@ -6,6 +6,7 @@ import HeaderBar from "../components/HeaderBar";
 function SignUp({ navigation }) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
+  const pwRef = useRef();
 
   return (
     <View style={styles.container}>
@@ -21,6 +22,9 @@ function SignUp({ navigation }) {
             returnKeyType="next"
             value={id.value}
             onChangeText={(text) => setId({ value: text, error: "" })}
+            onSubmitEditing={() => {
+              pwRef.current.focus();
+            }}
             error={Boolean(id.error)}
           />
           <HelperText type="error" visible={Boolean(id.error)}>
@@ -29,6 +33,7 @@ function SignUp({ navigation }) {
         </View>
         <View>
           <TextInput
+            ref={pwRef}
             label="비밀번호"
             returnKeyType="done"
             value={pw.value}
