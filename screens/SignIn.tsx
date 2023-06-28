@@ -13,6 +13,8 @@ function SignIn({ navigation }) {
     const isInValid = false; // TODO 유효성 검사
 
     if (isInValid) return;
+
+    navigation.navigate("Main");
   };
 
   return (
