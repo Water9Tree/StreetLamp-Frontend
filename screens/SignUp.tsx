@@ -1,12 +1,20 @@
 import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { HelperText, TextInput } from "react-native-paper";
+import { Button, HelperText, TextInput } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 
 function SignUp({ navigation }) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
   const pwRef = useRef();
+
+  const handleSubmitButtonPress = () => {
+    const isInValid = false; // TODO 유효성 검사
+
+    if (isInValid) return;
+
+    navigation.navigate("SignIn");
+  };
 
   return (
     <View style={styles.container}>
@@ -38,6 +46,7 @@ function SignUp({ navigation }) {
             returnKeyType="done"
             value={pw.value}
             onChangeText={(text) => setPw({ value: text, error: "" })}
+            onSubmitEditing={handleSubmitButtonPress}
             error={Boolean(pw.error)}
             secureTextEntry
             right={<TextInput.Icon icon="eye" />}
@@ -46,6 +55,13 @@ function SignUp({ navigation }) {
             {pw.error}
           </HelperText>
         </View>
+        <Button
+          mode="contained"
+          onPress={handleSubmitButtonPress}
+          style={styles.button}
+        >
+          확인
+        </Button>
       </View>
     </View>
   );
