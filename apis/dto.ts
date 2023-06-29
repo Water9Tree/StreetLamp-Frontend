@@ -6,5 +6,5 @@ export interface LampInfo {
   };
   adjoiningPlace: string;
   status: "light" | "dark";
-  isFavorite: true;
+  isFavorite: boolean;
 }
