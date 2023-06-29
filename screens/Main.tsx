@@ -3,9 +3,10 @@ import { StyleSheet, ImageBackground, View } from "react-native";
 import { SegmentedButtons } from "react-native-paper";
 import { darkLampInfos, lampInfos, lightLampInfos } from "../apis/mock";
 import MapMarker from "../components/MapMarker";
+import MainHeaderBar from "../components/MainHeaderBar";
 const mapImage = require("../assets/부산대맵.png");
 
-function Main() {
+function Main({ navigation }: any) {
   const [status, setStatus] = useState("all");
   const [selectedLampId, setSelectedLampId] = useState<number>();
 
@@ -26,8 +27,9 @@ function Main() {
 
   return (
     <View style={styles.container}>
+      <MainHeaderBar navigation={navigation} />
       <SegmentedButtons
-        style={{ top: 60, zIndex: 10 }}
+        style={{ marginTop: 10, zIndex: 10 }}
         value={status}
         onValueChange={(value) => {
           // TODO 상태에 따른 API 받아오기

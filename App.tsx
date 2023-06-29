@@ -6,6 +6,8 @@ import Start from "./screens/Start";
 import SignUp from "./screens/SignUp";
 import SignIn from "./screens/SignIn";
 import Main from "./screens/Main";
+import Notification from "./screens/Notification";
+import Setting from "./screens/Setting";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,8 @@ export default function App() {
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Notification" component={Notification} />
+          <Stack.Screen name="Setting" component={Setting} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
