@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, DataTable, IconButton } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 import { lampInfos } from "../apis/mock";
+import LampAddModal from "../components/LampAddModal";
 
 const Setting = ({ navigation }: any) => {
-  const [page, setPage] = React.useState<number>(0);
-  const [numberOfItemsPerPageList] = React.useState([2, 3, 4]);
-  const [itemsPerPage, onItemsPerPageChange] = React.useState(
+  const [page, setPage] = useState<number>(0);
+  const [numberOfItemsPerPageList] = useState([2, 3, 4]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
     numberOfItemsPerPageList[0]
   );
+  const [visible, setVisible] = useState(false);
 
-  const [items] = React.useState(lampInfos);
+  const [items] = useState(lampInfos);
 
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPage(0);
   }, [itemsPerPage]);
 
@@ -27,7 +29,14 @@ const Setting = ({ navigation }: any) => {
         backScreen={"Main"}
         title={"가로등 관리"}
       />
-      <Button mode="contained-tonal">추가</Button>
+      <Button
+        mode="contained-tonal"
+        onPress={() => {
+          setVisible(true);
+        }}
+      >
+        추가
+      </Button>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>No.</DataTable.Title>
@@ -61,6 +70,7 @@ const Setting = ({ navigation }: any) => {
           selectPageDropdownLabel={"Rows per page"}
         />
       </DataTable>
+      <LampAddModal visible={visible} setVisible={setVisible} />
     </View>
   );
 };
