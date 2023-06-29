@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import Icon from "react-native-paper/src/components/Icon";
 
-function Start({ navigation }) {
+function Start({ navigation }: any) {
   return (
     <View style={styles.container}>
       <View
@@ -12,17 +12,27 @@ function Start({ navigation }) {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
-          marginBottom: 30,
+          marginBottom: 10,
+          marginTop: -30,
         }}
       >
-        <Icon size={70} source="floor-lamp-torchiere-outline"></Icon>
-        <Text variant="displaySmall">PNU</Text>
+        <Icon
+          color="indigo"
+          size={70}
+          source="floor-lamp-torchiere-outline"
+        ></Icon>
+        <Text
+          style={{ color: "indigo", fontWeight: "700" }}
+          variant="headlineLarge"
+        >
+          PNU 가로등
+        </Text>
       </View>
-      <Text variant="headlineMedium">가로등 모니터링 서비스</Text>
+      <Text variant="titleLarge">모니터링 서비스</Text>
       <View
         style={{
           position: "absolute",
-          bottom: 130,
+          bottom: 160,
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
@@ -30,6 +40,7 @@ function Start({ navigation }) {
       >
         <Button
           style={{ marginRight: 10 }}
+          labelStyle={{ fontSize: 16 }}
           mode="outlined"
           onPress={() => navigation.navigate("SignUp")}
         >
