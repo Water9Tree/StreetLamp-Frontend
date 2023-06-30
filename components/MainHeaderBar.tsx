@@ -3,7 +3,11 @@ import { Appbar } from "react-native-paper";
 
 function MainHeaderBar({ navigation }: any) {
   return (
-    <Appbar mode="center-aligned" safeAreaInsets={{ top: 20 }}>
+    <Appbar
+      mode="center-aligned"
+      style={{ marginTop: 15 }}
+      safeAreaInsets={{ top: 20 }}
+    >
       <Appbar.Content title="" />
       <Appbar.Action
         icon="bell-outline"

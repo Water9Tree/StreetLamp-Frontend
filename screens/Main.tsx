@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, ImageBackground, View } from "react-native";
-import { SegmentedButtons } from "react-native-paper";
+import { IconButton, SegmentedButtons, Text } from "react-native-paper";
 import { darkLampInfos, lampInfos, lightLampInfos } from "../apis/mock";
 import MapMarker from "../components/MapMarker";
 import MainHeaderBar from "../components/MainHeaderBar";
@@ -29,7 +29,7 @@ function Main({ navigation }: any) {
     <View style={styles.container}>
       <MainHeaderBar navigation={navigation} />
       <SegmentedButtons
-        style={{ marginTop: 10, zIndex: 10 }}
+        style={{ marginVertical: 20, marginHorizontal: 15, zIndex: 10 }}
         value={status}
         onValueChange={(value) => {
           // TODO 상태에 따른 API 받아오기
@@ -39,10 +39,13 @@ function Main({ navigation }: any) {
       />
       <ImageBackground
         source={mapImage}
-        resizeMode="contain"
+        resizeMode="cover"
         style={{
           flex: 1,
           justifyContent: "center",
+          height: 500,
+          marginHorizontal: 15,
+          position: "relative",
         }}
       >
         {status === "all" &&
