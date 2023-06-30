@@ -3,11 +3,15 @@ import { StyleSheet, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 
-function SignUp({ navigation }) {
+function SignUp({ navigation }: any) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
+  const [email, setEmail] = useState({ value: "", error: "" });
+  const [code, setCode] = useState({ value: "", error: "" });
   const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
   const pwRef = useRef();
+  const emailRef = useRef();
+  const codeRef = useRef();
 
   const handleSubmitButtonPress = () => {
     const isInValid = false; // TODO 유효성 검사
@@ -44,10 +48,12 @@ function SignUp({ navigation }) {
           <TextInput
             ref={pwRef}
             label="비밀번호"
-            returnKeyType="done"
+            returnKeyType="next"
             value={pw.value}
             onChangeText={(text) => setPw({ value: text, error: "" })}
-            onSubmitEditing={handleSubmitButtonPress}
+            onSubmitEditing={() => {
+              emailRef.current.focus();
+            }}
             error={Boolean(pw.error)}
             secureTextEntry={pwSecureTextEntry}
             right={
@@ -63,11 +69,46 @@ function SignUp({ navigation }) {
             {pw.error}
           </HelperText>
         </View>
-        <Button
-          mode="contained"
-          onPress={handleSubmitButtonPress}
-          style={styles.button}
-        >
+        <View>
+          <TextInput
+            ref={emailRef}
+            label="이메일"
+            returnKeyType="next"
+            value={email.value}
+            onChangeText={(text) => setEmail({ value: text, error: "" })}
+            onSubmitEditing={() => {
+              codeRef.current.focus();
+            }}
+            error={Boolean(email.error)}
+            right={
+              <TextInput.Icon
+                icon="send"
+                onPress={() => {
+                  // TODO 이메일 인증 API
+                  codeRef.current.focus();
+                }}
+              />
+            }
+          />
+          <HelperText type="error" visible={Boolean(email.error)}>
+            {email.error}
+          </HelperText>
+        </View>
+        <View>
+          <TextInput
+            ref={codeRef}
+            label="인증코드"
+            returnKeyType="done"
+            value={code.value}
+            onChangeText={(text) => setCode({ value: text, error: "" })}
+            onSubmitEditing={handleSubmitButtonPress}
+            error={Boolean(code.error)}
+          />
+          <HelperText type="error" visible={Boolean(code.error)}>
+            {code.error}
+          </HelperText>
+        </View>
+        <Button mode="contained" onPress={handleSubmitButtonPress}>
           확인
         </Button>
       </View>
