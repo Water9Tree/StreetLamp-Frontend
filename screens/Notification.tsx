@@ -8,15 +8,25 @@ const Notification = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <HeaderBar navigation={navigation} backScreen={"Main"} title={"알림"} />
-      <List.Section>
+      <List.Section style={{ marginVertical: 20 }}>
         {notificationList.map((notification) => (
           <List.Item
             style={{
               backgroundColor: notification.isNotRead ? "beige" : "white",
+              height: 60,
+              paddingHorizontal: 15,
+            }}
+            titleStyle={{
+              fontSize: 18,
             }}
             key={notification.id}
             title={notification.content}
-            left={() => <List.Icon icon="bell-outline" />}
+            left={() => (
+              <List.Icon
+                color={notification.isNotRead ? "crimson" : ""}
+                icon="bell-outline"
+              />
+            )}
           />
         ))}
       </List.Section>
