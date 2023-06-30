@@ -29,14 +29,27 @@ const Setting = ({ navigation }: any) => {
         backScreen={"Main"}
         title={"가로등 관리"}
       />
-      <Button
-        mode="contained-tonal"
-        onPress={() => {
-          setVisible(true);
+      <View
+        style={{
+          marginTop: 20,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          marginHorizontal: 15,
         }}
       >
-        추가
-      </Button>
+        <Button
+          style={{ width: 80 }}
+          buttonColor="rgb(120, 69, 172)"
+          textColor="white"
+          mode="contained-tonal"
+          onPress={() => {
+            setVisible(true);
+          }}
+        >
+          추가
+        </Button>
+      </View>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>No.</DataTable.Title>
@@ -48,12 +61,15 @@ const Setting = ({ navigation }: any) => {
             <DataTable.Cell>{index + 1}</DataTable.Cell>
             <DataTable.Cell>{item.lampName}</DataTable.Cell>
             <DataTable.Cell numeric>
-              <IconButton
-                icon="trash-can-outline"
-                iconColor="red"
-                size={30}
-                onPress={() => console.log("Pressed")}
-              />
+              <Button
+                mode="contained-tonal"
+                buttonColor="lightpink"
+                onPress={() => {
+                  // TODO
+                }}
+              >
+                삭제
+              </Button>
             </DataTable.Cell>
           </DataTable.Row>
         ))}
