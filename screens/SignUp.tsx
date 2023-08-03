@@ -1,6 +1,12 @@
 import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, HelperText, TextInput } from "react-native-paper";
+import {
+  Button,
+  Checkbox,
+  HelperText,
+  Text,
+  TextInput,
+} from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 
 function SignUp({ navigation }: any) {
@@ -8,10 +14,11 @@ function SignUp({ navigation }: any) {
   const [pw, setPw] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
   const [code, setCode] = useState({ value: "", error: "" });
+  const [isAdmin, setIsAdmin] = useState(false);
   const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
-  const pwRef = useRef();
-  const emailRef = useRef();
-  const codeRef = useRef();
+  const pwRef = useRef<any>(null);
+  const emailRef = useRef<any>(null);
+  const codeRef = useRef<any>(null);
 
   const handleSubmitButtonPress = () => {
     const isInValid = false; // TODO 유효성 검사
@@ -80,15 +87,6 @@ function SignUp({ navigation }: any) {
               codeRef.current.focus();
             }}
             error={Boolean(email.error)}
-            right={
-              <TextInput.Icon
-                icon="send"
-                onPress={() => {
-                  // TODO 이메일 인증 API
-                  codeRef.current.focus();
-                }}
-              />
-            }
           />
           <HelperText type="error" visible={Boolean(email.error)}>
             {email.error}
@@ -97,7 +95,7 @@ function SignUp({ navigation }: any) {
         <View>
           <TextInput
             ref={codeRef}
-            label="인증코드"
+            label="닉네임"
             returnKeyType="done"
             value={code.value}
             onChangeText={(text) => setCode({ value: text, error: "" })}
@@ -107,6 +105,21 @@ function SignUp({ navigation }: any) {
           <HelperText type="error" visible={Boolean(code.error)}>
             {code.error}
           </HelperText>
+        </View>
+        <View
+          style={{
+            marginBottom: 20,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>관리자</Text>
+          <Checkbox
+            status={isAdmin ? "checked" : "unchecked"}
+            onPress={() => {
+              setIsAdmin((prev) => !prev);
+            }}
+          />
         </View>
         <Button mode="contained" onPress={handleSubmitButtonPress}>
           확인

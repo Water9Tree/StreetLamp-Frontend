@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, DataTable, IconButton } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 import { lampInfos } from "../apis/mock";
 import LampAddModal from "../components/LampAddModal";
+import axios from "axios";
+import LampEditModal from "../components/LampEditModal";
 
 const Setting = ({ navigation }: any) => {
   const [page, setPage] = useState<number>(0);
@@ -12,8 +14,11 @@ const Setting = ({ navigation }: any) => {
     numberOfItemsPerPageList[0]
   );
   const [visible, setVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
+  const [apiUpdate, setApiUpdate] = useState(false);
 
-  const [items] = useState(lampInfos);
+  const [items, setItems] = useState(lampInfos);
+  const [selectedItem, setSelectedItem] = useState<any>();
 
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
@@ -21,6 +26,24 @@ const Setting = ({ navigation }: any) => {
   useEffect(() => {
     setPage(0);
   }, [itemsPerPage]);
+
+  useEffect(() => {
+    axios
+      .get("/lamps")
+      .then(function (response) {
+        setItems(response.data);
+        // console.log(response.data);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!selectedItem) return;
+    console.log(selectedItem);
+    setEditVisible(true);
+  }, [selectedItem]);
 
   return (
     <View style={styles.container}>
@@ -56,24 +79,31 @@ const Setting = ({ navigation }: any) => {
           <DataTable.Title>가로등명</DataTable.Title>
           <DataTable.Title numeric>관리</DataTable.Title>
         </DataTable.Header>
-        {items.slice(from, to).map((item, index) => (
-          <DataTable.Row key={item.lampId}>
-            <DataTable.Cell>{index + 1}</DataTable.Cell>
-            <DataTable.Cell>{item.lampName}</DataTable.Cell>
-            <DataTable.Cell numeric>
-              <Button
-                mode="contained-tonal"
-                buttonColor="lightpink"
-                onPress={() => {
-                  // TODO
-                }}
-              >
-                삭제
-              </Button>
-            </DataTable.Cell>
-          </DataTable.Row>
-        ))}
-
+        {items.slice(from, to).map((item, index) => {
+          return (
+            <DataTable.Row
+              key={item._id}
+              onPress={() => {
+                setSelectedItem(item);
+              }}
+            >
+              <DataTable.Cell>{index + 1}</DataTable.Cell>
+              <DataTable.Cell>{item.lampName}</DataTable.Cell>
+              <DataTable.Cell numeric>
+                <Button
+                  mode="contained-tonal"
+                  buttonColor="lightpink"
+                  onPress={() => {
+                    axios
+                      .delete(`/lamps/${item._id}`)
+                  }}
+                >
+                  삭제
+                </Button>
+              </DataTable.Cell>
+            </DataTable.Row>
+          );
+        })}
         <DataTable.Pagination
           page={page}
           numberOfPages={Math.ceil(items.length / itemsPerPage)}
@@ -87,6 +117,11 @@ const Setting = ({ navigation }: any) => {
         />
       </DataTable>
       <LampAddModal visible={visible} setVisible={setVisible} />
+      <LampEditModal
+        visible={editVisible}
+        setVisible={setEditVisible}
+        lampData={selectedItem}
+      />
     </View>
   );
 };

@@ -35,13 +35,13 @@ const MapMarker = ({
           bottom: 10,
           left: 10,
         }}
-        onPress={() => setSelectedLampId(lampInfo.lampId)}
+        onPress={() => setSelectedLampId(lampInfo._id)}
       >
         <IconButton
           icon="map-marker"
           size={50}
           iconColor={
-            selectedLampId === lampInfo.lampId ? "indigo" : "mediumslateblue"
+            selectedLampId === lampInfo._id ? "indigo" : "mediumslateblue"
           }
         />
         <Badge

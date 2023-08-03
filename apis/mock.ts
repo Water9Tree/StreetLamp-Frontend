@@ -2,7 +2,7 @@ import { LampInfo, Notification } from "./dto";
 
 export const lampInfos: LampInfo[] = [
   {
-    lampId: 1,
+    _id: 1,
     lampName: "A-1",
     location: {
       x: 4,
@@ -13,7 +13,7 @@ export const lampInfos: LampInfo[] = [
     isFavorite: true,
   },
   {
-    lampId: 2,
+    _id: 2,
     lampName: "A-2",
     location: {
       x: 3.4,
@@ -27,7 +27,7 @@ export const lampInfos: LampInfo[] = [
 
 export const lightLampInfos: LampInfo[] = [
   {
-    lampId: 1,
+    _id: 1,
     lampName: "A-1",
     location: {
       x: 4,
@@ -41,7 +41,7 @@ export const lightLampInfos: LampInfo[] = [
 
 export const darkLampInfos: LampInfo[] = [
   {
-    lampId: 2,
+    _id: 2,
     lampName: "A-1",
     location: {
       x: 3.4,

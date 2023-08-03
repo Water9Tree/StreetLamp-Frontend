@@ -1,5 +1,5 @@
 export interface LampInfo {
-  lampId: number;
+  _id: number;
   lampName: string;
   location: {
     x: number;

@@ -52,7 +52,7 @@ function Main({ navigation }: any) {
           lampInfos.map((lampInfo) => {
             return (
               <MapMarker
-                key={lampInfo.lampId}
+                key={lampInfo._id}
                 lampInfo={lampInfo}
                 selectedLampId={selectedLampId}
                 setSelectedLampId={setSelectedLampId}
@@ -63,7 +63,7 @@ function Main({ navigation }: any) {
           lightLampInfos.map((lampInfo) => {
             return (
               <MapMarker
-                key={lampInfo.lampId}
+                key={lampInfo._id}
                 lampInfo={lampInfo}
                 selectedLampId={selectedLampId}
                 setSelectedLampId={setSelectedLampId}
@@ -74,7 +74,7 @@ function Main({ navigation }: any) {
           darkLampInfos.map((lampInfo) => {
             return (
               <MapMarker
-                key={lampInfo.lampId}
+                key={lampInfo._id}
                 lampInfo={lampInfo}
                 selectedLampId={selectedLampId}
                 setSelectedLampId={setSelectedLampId}

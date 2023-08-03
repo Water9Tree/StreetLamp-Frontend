@@ -3,11 +3,11 @@ import { StyleSheet, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 
-function SignIn({ navigation }) {
+function SignIn({ navigation }: any) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
   const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
-  const pwRef = useRef();
+  const pwRef = useRef<any>(null);
 
   const handleSubmitButtonPress = () => {
     const isInValid = false; // TODO 유효성 검사
@@ -63,11 +63,7 @@ function SignIn({ navigation }) {
             {pw.error}
           </HelperText>
         </View>
-        <Button
-          mode="contained"
-          onPress={handleSubmitButtonPress}
-          style={styles.button}
-        >
+        <Button mode="contained" onPress={handleSubmitButtonPress}>
           확인
         </Button>
       </View>

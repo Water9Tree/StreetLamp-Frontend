@@ -2,18 +2,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Dialog, Portal, TextInput } from "react-native-paper";
 
-const LampAddModal = ({ visible, setVisible }: any) => {
-  const [lampName, setLampName] = useState("");
-  const [adjoiningPlace, setAdjoiningPlace] = useState("");
+const LampEditModal = ({ visible, setVisible, lampData }: any) => {
+  const [lampName, setLampName] = useState(lampData?.lampName);
+  const [adjoiningPlace, setAdjoiningPlace] = useState(
+    lampData?.adjoiningPlace
+  );
 
   const hideDialog = () => {
     axios
-      .post("/lamps", {
+      .patch(`/lamps/${lampData.lampId}`, {
         lampName,
-        location: {
-          x: 30,
-          y: 200,
-        },
         adjoiningPlace,
       })
       .then(function (response) {
@@ -34,17 +32,17 @@ const LampAddModal = ({ visible, setVisible }: any) => {
         visible={visible}
         onDismiss={hideDialog}
       >
-        <Dialog.Title style={{ fontSize: 16 }}>가로등 추가</Dialog.Title>
+        <Dialog.Title style={{ fontSize: 16 }}>가로등 수정</Dialog.Title>
         <Dialog.Content>
           <TextInput
             style={{ marginBottom: 30 }}
             label="가로등명"
-            value={lampName}
+            value={lampName ?? lampData?.lampName}
             onChangeText={(text) => setLampName(text)}
           />
           <TextInput
             label="인접한 장소"
-            value={adjoiningPlace}
+            value={adjoiningPlace ?? lampData?.adjoiningPlace}
             onChangeText={(text) => setAdjoiningPlace(text)}
           />
         </Dialog.Content>
@@ -55,7 +53,7 @@ const LampAddModal = ({ visible, setVisible }: any) => {
             mode="contained"
             style={{ paddingHorizontal: 6 }}
           >
-            추가
+            수정
           </Button>
         </Dialog.Actions>
       </Dialog>
@@ -63,4 +61,4 @@ const LampAddModal = ({ visible, setVisible }: any) => {
   );
 };
 
-export default LampAddModal;
+export default LampEditModal;

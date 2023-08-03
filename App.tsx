@@ -8,9 +8,13 @@ import SignIn from "./screens/SignIn";
 import Main from "./screens/Main";
 import Notification from "./screens/Notification";
 import Setting from "./screens/Setting";
+import axios from "axios";
+import { API_URL } from "@env";
+
+axios.defaults.baseURL = API_URL;
+axios.defaults.timeout = 10000;
 
 const Stack = createNativeStackNavigator();
-
 export default function App() {
   return (
     <PaperProvider>
