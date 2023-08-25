@@ -8,24 +8,40 @@ import {
   TextInput,
 } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
+import { useSignUpMutation } from "../apis/apis";
 
 function SignUp({ navigation }: any) {
   const [id, setId] = useState({ value: "", error: "" });
   const [pw, setPw] = useState({ value: "", error: "" });
   const [email, setEmail] = useState({ value: "", error: "" });
-  const [code, setCode] = useState({ value: "", error: "" });
+  const [name, setName] = useState({ value: "", error: "" });
   const [isAdmin, setIsAdmin] = useState(false);
   const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
   const pwRef = useRef<any>(null);
   const emailRef = useRef<any>(null);
   const codeRef = useRef<any>(null);
 
+  const { mutate: signUp } = useSignUpMutation();
+
   const handleSubmitButtonPress = () => {
     const isInValid = false; // TODO 유효성 검사
 
     if (isInValid) return;
 
-    navigation.navigate("SignIn");
+    signUp(
+      {
+        email: email.value,
+        loginId: id.value,
+        password: pw.value,
+        username: name.value,
+        role: isAdmin ? "ROLE_ADMIN" : "ROLE_USER",
+      },
+      {
+        onSuccess: () => {
+          navigation.navigate("SignIn");
+        },
+      }
+    );
   };
 
   return (
@@ -97,13 +113,13 @@ function SignUp({ navigation }: any) {
             ref={codeRef}
             label="닉네임"
             returnKeyType="done"
-            value={code.value}
-            onChangeText={(text) => setCode({ value: text, error: "" })}
+            value={name.value}
+            onChangeText={(text) => setName({ value: text, error: "" })}
             onSubmitEditing={handleSubmitButtonPress}
-            error={Boolean(code.error)}
+            error={Boolean(name.error)}
           />
-          <HelperText type="error" visible={Boolean(code.error)}>
-            {code.error}
+          <HelperText type="error" visible={Boolean(name.error)}>
+            {name.error}
           </HelperText>
         </View>
         <View

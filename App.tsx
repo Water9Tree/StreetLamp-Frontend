@@ -10,26 +10,31 @@ import Notification from "./screens/Notification";
 import Setting from "./screens/Setting";
 import axios from "axios";
 import { API_URL } from "@env";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.timeout = 10000;
 
 const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false }}
-          initialRouteName="Start"
-        >
-          <Stack.Screen name="Start" component={Start} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="Main" component={Main} />
-          <Stack.Screen name="Notification" component={Notification} />
-          <Stack.Screen name="Setting" component={Setting} />
-        </Stack.Navigator>
+        <QueryClientProvider client={queryClient}>
+          <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName="Start"
+          >
+            <Stack.Screen name="Start" component={Start} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="Main" component={Main} />
+            <Stack.Screen name="Notification" component={Notification} />
+            <Stack.Screen name="Setting" component={Setting} />
+          </Stack.Navigator>
+        </QueryClientProvider>
       </NavigationContainer>
     </PaperProvider>
   );
