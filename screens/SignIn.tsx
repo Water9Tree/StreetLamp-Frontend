@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
+import { useSignInMutation } from "../apis/apis";
 
 function SignIn({ navigation }: any) {
   const [id, setId] = useState({ value: "", error: "" });
@@ -9,12 +10,25 @@ function SignIn({ navigation }: any) {
   const [pwSecureTextEntry, setPwSecureTextEntry] = useState(true);
   const pwRef = useRef<any>(null);
 
+  const { mutate: signIn } = useSignInMutation();
+
   const handleSubmitButtonPress = () => {
     const isInValid = false; // TODO 유효성 검사
 
     if (isInValid) return;
 
-    navigation.navigate("Main");
+    signIn(
+      {
+        loginId: id.value,
+        password: pw.value,
+        expoToken: "",
+      },
+      {
+        onSuccess: () => {
+          navigation.navigate("Main");
+        },
+      }
+    );
   };
 
   return (

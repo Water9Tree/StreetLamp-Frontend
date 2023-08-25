@@ -29,11 +29,8 @@ export interface User {
 }
 
 export interface SignInInfo {
-  email: string;
   loginId: string;
   password: string;
-  username: string;
-  role: Role;
   expoToken: string;
 }
 
