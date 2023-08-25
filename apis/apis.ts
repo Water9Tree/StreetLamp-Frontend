@@ -48,9 +48,9 @@ const useDeleteLampMutation = () => {
   return useMutation(fetcher);
 };
 
-const useGetLampsQuery = (status: LampStatus) => {
+const useGetLampsQuery = (status?: LampStatus) => {
   const fetcher = () => {
-    return axios.get(`/lamps`, { params: { status } });
+    return axios.get(`/lamps`, { params: { status } }).then(({ data }) => data);
   };
 
   return useQuery(["lamps"], fetcher);

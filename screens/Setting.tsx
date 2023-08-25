@@ -6,6 +6,7 @@ import { lampInfos } from "../apis/mock";
 import LampAddModal from "../components/LampAddModal";
 import axios from "axios";
 import LampEditModal from "../components/LampEditModal";
+import { useGetLampsQuery } from "../apis/apis";
 
 const Setting = ({ navigation }: any) => {
   const [page, setPage] = useState<number>(0);
@@ -15,7 +16,6 @@ const Setting = ({ navigation }: any) => {
   );
   const [visible, setVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
-  const [apiUpdate, setApiUpdate] = useState(false);
 
   const [items, setItems] = useState(lampInfos);
   const [selectedItem, setSelectedItem] = useState<any>();
@@ -23,27 +23,22 @@ const Setting = ({ navigation }: any) => {
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
 
+  const { data: lamps } = useGetLampsQuery();
+
   useEffect(() => {
     setPage(0);
   }, [itemsPerPage]);
-
-  useEffect(() => {
-    axios
-      .get("/lamps")
-      .then(function (response) {
-        setItems(response.data);
-        // console.log(response.data);
-      })
-      .catch(function (error) {
-        // console.log(error);
-      });
-  }, []);
 
   useEffect(() => {
     if (!selectedItem) return;
     console.log(selectedItem);
     setEditVisible(true);
   }, [selectedItem]);
+
+  useEffect(() => {
+    if (!lamps) return;
+    setItems(lamps);
+  }, [lamps]);
 
   return (
     <View style={styles.container}>
@@ -94,8 +89,7 @@ const Setting = ({ navigation }: any) => {
                   mode="contained-tonal"
                   buttonColor="lightpink"
                   onPress={() => {
-                    axios
-                      .delete(`/lamps/${item._id}`)
+                    axios.delete(`/lamps/${item._id}`);
                   }}
                 >
                   삭제
