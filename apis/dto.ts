@@ -17,3 +17,33 @@ export interface Notification {
   time: string;
   isNotRead: boolean;
 }
+
+export type Role = "ROLE_ADMIN" | "ROLE_USER";
+
+export interface User {
+  email: string;
+  loginId: string;
+  password: string;
+  username: string;
+  role: Role;
+}
+
+export interface SignInInfo {
+  email: string;
+  loginId: string;
+  password: string;
+  username: string;
+  role: Role;
+  expoToken: string;
+}
+
+export interface LampInfo {
+  lampName: string;
+  location: {
+    x: number;
+    y: number;
+  };
+  adjoiningPlace: string;
+}
+
+export type LampStatus = "light" | "normal" | "dark";
