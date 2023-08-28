@@ -5,8 +5,8 @@ import { LampInfo } from "../apis/dto";
 
 interface MapMarkerProps {
   lampInfo: LampInfo;
-  selectedLampId?: number;
-  setSelectedLampId: React.Dispatch<React.SetStateAction<number | undefined>>;
+  selectedLampId?: string;
+  setSelectedLampId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const MapMarker = ({
@@ -14,7 +14,6 @@ const MapMarker = ({
   selectedLampId,
   setSelectedLampId,
 }: MapMarkerProps) => {
-  const deviceWidth = Dimensions.get("window").width; // TODO 이미지 너비 기준으로 변경
   enum statusColor {
     "light" = "yellow",
     "normal" = "darkgray",
@@ -25,8 +24,8 @@ const MapMarker = ({
     <View
       style={{
         position: "absolute",
-        top: deviceWidth / lampInfo.location.y,
-        left: deviceWidth / lampInfo.location.x,
+        top: lampInfo.location.y * (5 / 4) + 16,
+        left: lampInfo.location.x * (5 / 4) + 6,
       }}
     >
       <TouchableOpacity

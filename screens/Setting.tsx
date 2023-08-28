@@ -23,7 +23,7 @@ const Setting = ({ navigation }: any) => {
   const from = page * itemsPerPage;
   const to = Math.min((page + 1) * itemsPerPage, items.length);
 
-  const { data: lamps } = useGetLampsQuery();
+  const { data: lamps } = useGetLampsQuery({ status: null });
   const { mutate: deleteLamp } = useDeleteLampMutation();
 
   useEffect(() => {

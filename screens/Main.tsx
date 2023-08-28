@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { StyleSheet, ImageBackground, View } from "react-native";
 import { IconButton, SegmentedButtons, Text } from "react-native-paper";
-import { darkLampInfos, lampInfos, lightLampInfos } from "../apis/mock";
 import MapMarker from "../components/MapMarker";
 import MainHeaderBar from "../components/MainHeaderBar";
+import { useGetLampsQuery } from "../apis/apis";
+import { LampStatus } from "../apis/dto";
 const mapImage = require("../assets/부산대맵.png");
 
 function Main({ navigation }: any) {
   const [status, setStatus] = useState("all");
-  const [selectedLampId, setSelectedLampId] = useState<number>();
+  const [selectedLampId, setSelectedLampId] = useState<string>();
+
+  const { data: lampInfos } = useGetLampsQuery({
+    status: status === "all" ? null : (status as LampStatus),
+  });
 
   const statusButtons = [
     {
@@ -43,35 +48,14 @@ function Main({ navigation }: any) {
         style={{
           flex: 1,
           justifyContent: "center",
-          height: 500,
+          height: 400 * (5 / 4),
           marginHorizontal: 15,
           position: "relative",
         }}
       >
         {status === "all" &&
-          lampInfos.map((lampInfo) => {
-            return (
-              <MapMarker
-                key={lampInfo._id}
-                lampInfo={lampInfo}
-                selectedLampId={selectedLampId}
-                setSelectedLampId={setSelectedLampId}
-              />
-            );
-          })}
-        {status === "light" &&
-          lightLampInfos.map((lampInfo) => {
-            return (
-              <MapMarker
-                key={lampInfo._id}
-                lampInfo={lampInfo}
-                selectedLampId={selectedLampId}
-                setSelectedLampId={setSelectedLampId}
-              />
-            );
-          })}
-        {status === "dark" &&
-          darkLampInfos.map((lampInfo) => {
+          lampInfos &&
+          lampInfos.map((lampInfo: any) => {
             return (
               <MapMarker
                 key={lampInfo._id}
