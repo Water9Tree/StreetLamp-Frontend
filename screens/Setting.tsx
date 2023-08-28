@@ -6,13 +6,13 @@ import { lampInfos } from "../apis/mock";
 import LampAddModal from "../components/LampAddModal";
 import axios from "axios";
 import LampEditModal from "../components/LampEditModal";
-import { useGetLampsQuery } from "../apis/apis";
+import { useDeleteLampMutation, useGetLampsQuery } from "../apis/apis";
 
 const Setting = ({ navigation }: any) => {
   const [page, setPage] = useState<number>(0);
-  const [numberOfItemsPerPageList] = useState([2, 3, 4]);
+  const [numberOfItemsPerPageList] = useState([2, 3, 4, 6]);
   const [itemsPerPage, onItemsPerPageChange] = useState(
-    numberOfItemsPerPageList[0]
+    numberOfItemsPerPageList[3]
   );
   const [visible, setVisible] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
@@ -24,6 +24,7 @@ const Setting = ({ navigation }: any) => {
   const to = Math.min((page + 1) * itemsPerPage, items.length);
 
   const { data: lamps } = useGetLampsQuery();
+  const { mutate: deleteLamp } = useDeleteLampMutation();
 
   useEffect(() => {
     setPage(0);
@@ -89,7 +90,8 @@ const Setting = ({ navigation }: any) => {
                   mode="contained-tonal"
                   buttonColor="lightpink"
                   onPress={() => {
-                    //axios.delete(`/lamps/${item._id}`);
+                    if (!item._id) return;
+                    deleteLamp(item._id);
                   }}
                 >
                   삭제

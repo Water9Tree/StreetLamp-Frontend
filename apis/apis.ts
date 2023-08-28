@@ -53,7 +53,7 @@ const useUpdateLampMutation = () => {
     lampId,
     lampInfo,
   }: {
-    lampId: number;
+    lampId: string;
     lampInfo: Partial<LampInfo>;
   }) => {
     return axios.patch(`/lamps/${lampId}`, lampInfo, {
@@ -74,7 +74,7 @@ const useDeleteLampMutation = () => {
   const getTokenState = useRecoilValue(tokenState);
   const queryClient = useQueryClient();
 
-  const fetcher = (lampId: number) => {
+  const fetcher = (lampId: string) => {
     return axios.delete(`/lamps/${lampId}`, {
       headers: {
         Authorization: `Bearer ${getTokenState}`,

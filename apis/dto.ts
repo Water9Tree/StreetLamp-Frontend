@@ -35,6 +35,7 @@ export interface SignInInfo {
 }
 
 export interface LampInfo {
+  _id?: string;
   lampName: string;
   location: {
     x: number;
