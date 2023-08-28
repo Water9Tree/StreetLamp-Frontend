@@ -1,6 +1,9 @@
 import axios from "axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { LampInfo, LampStatus, SignInInfo, User } from "./dto";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { tokenState } from "../store";
+import { QueryClient } from "@tanstack/react-query";
 
 const useSignUpMutation = () => {
   const fetcher = (props: User) => {
@@ -11,22 +14,41 @@ const useSignUpMutation = () => {
 };
 
 const useSignInMutation = () => {
+  const setTokenState = useSetRecoilState(tokenState);
   const fetcher = (props: SignInInfo) => {
-    return axios.post("/auth/signIn", props);
+    return axios.post("/auth/signIn", props).then(({ data }) => data);
   };
 
-  return useMutation(fetcher);
+  return useMutation(fetcher, {
+    onSuccess: ({ access_token }) => {
+      setTokenState(access_token);
+    },
+  });
 };
 
 const useCreateLampMutation = () => {
+  const getTokenState = useRecoilValue(tokenState);
+  const queryClient = useQueryClient();
+
   const fetcher = (props: LampInfo) => {
-    return axios.post("/lamps", props);
+    return axios.post("/lamps", props, {
+      headers: {
+        Authorization: `Bearer ${getTokenState}`,
+      },
+    });
   };
 
-  return useMutation(fetcher);
+  return useMutation(fetcher, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["lamps"]);
+    },
+  });
 };
 
 const useUpdateLampMutation = () => {
+  const getTokenState = useRecoilValue(tokenState);
+  const queryClient = useQueryClient();
+
   const fetcher = ({
     lampId,
     lampInfo,
@@ -34,18 +56,37 @@ const useUpdateLampMutation = () => {
     lampId: number;
     lampInfo: Partial<LampInfo>;
   }) => {
-    return axios.patch(`/lamps/${lampId}`, lampInfo);
+    return axios.patch(`/lamps/${lampId}`, lampInfo, {
+      headers: {
+        Authorization: `Bearer ${getTokenState}`,
+      },
+    });
   };
 
-  return useMutation(fetcher);
+  return useMutation(fetcher, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["lamps"]);
+    },
+  });
 };
 
 const useDeleteLampMutation = () => {
+  const getTokenState = useRecoilValue(tokenState);
+  const queryClient = useQueryClient();
+
   const fetcher = (lampId: number) => {
-    return axios.delete(`/lamps/${lampId}`);
+    return axios.delete(`/lamps/${lampId}`, {
+      headers: {
+        Authorization: `Bearer ${getTokenState}`,
+      },
+    });
   };
 
-  return useMutation(fetcher);
+  return useMutation(fetcher, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["lamps"]);
+    },
+  });
 };
 
 const useGetLampsQuery = (status?: LampStatus) => {

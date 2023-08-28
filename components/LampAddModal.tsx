@@ -13,7 +13,7 @@ const mapImage = require("../assets/부산대맵.png");
 
 const LampAddModal = ({ visible, setVisible }: any) => {
   const [lampName, setLampName] = useState("");
-  const [adjoiningPlace, setAdjoiningPlace] = useState("");
+  const [adjoiningPlace, setAdjoiningPlace] = useState();
   const [isNext, setIsNext] = useState(false);
 
   const { mutate: createLamp } = useCreateLampMutation();

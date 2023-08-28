@@ -11,9 +11,11 @@ import Setting from "./screens/Setting";
 import axios from "axios";
 import { API_URL } from "@env";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 
 axios.defaults.baseURL = API_URL;
 axios.defaults.timeout = 10000;
+console.log(axios.defaults.baseURL);
 
 const Stack = createNativeStackNavigator();
 const queryClient = new QueryClient();
@@ -22,19 +24,21 @@ export default function App() {
   return (
     <PaperProvider>
       <NavigationContainer>
-        <QueryClientProvider client={queryClient}>
-          <Stack.Navigator
-            screenOptions={{ headerShown: false }}
-            initialRouteName="Start"
-          >
-            <Stack.Screen name="Start" component={Start} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="SignIn" component={SignIn} />
-            <Stack.Screen name="Main" component={Main} />
-            <Stack.Screen name="Notification" component={Notification} />
-            <Stack.Screen name="Setting" component={Setting} />
-          </Stack.Navigator>
-        </QueryClientProvider>
+        <RecoilRoot>
+          <QueryClientProvider client={queryClient}>
+            <Stack.Navigator
+              screenOptions={{ headerShown: false }}
+              initialRouteName="Start"
+            >
+              <Stack.Screen name="Start" component={Start} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+              <Stack.Screen name="SignIn" component={SignIn} />
+              <Stack.Screen name="Main" component={Main} />
+              <Stack.Screen name="Notification" component={Notification} />
+              <Stack.Screen name="Setting" component={Setting} />
+            </Stack.Navigator>
+          </QueryClientProvider>
+        </RecoilRoot>
       </NavigationContainer>
     </PaperProvider>
   );

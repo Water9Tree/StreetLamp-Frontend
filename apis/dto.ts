@@ -40,7 +40,7 @@ export interface LampInfo {
     x: number;
     y: number;
   };
-  adjoiningPlace: string;
+  adjoiningPlace?: string;
 }
 
 export type LampStatus = "light" | "normal" | "dark";
