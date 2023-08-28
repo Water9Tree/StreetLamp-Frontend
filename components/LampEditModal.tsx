@@ -8,6 +8,7 @@ import {
   Portal,
   TextInput,
 } from "react-native-paper";
+import { useUpdateLampMutation } from "../apis/apis";
 const mapImage = require("../assets/부산대맵.png");
 
 const LampEditModal = ({ visible, setVisible, lampData }: any) => {
@@ -20,6 +21,8 @@ const LampEditModal = ({ visible, setVisible, lampData }: any) => {
   const imageRef = useRef<View>(null);
   const [clickCoordinates, setClickCoordinates] = useState({ x: 0, y: 0 });
   const [marker, setMarker] = useState<React.ReactNode | null>(null);
+
+  const { mutate: editLamp } = useUpdateLampMutation();
 
   const handlePress = (event: any) => {
     event.persist(); // Preserve the event
@@ -59,18 +62,21 @@ const LampEditModal = ({ visible, setVisible, lampData }: any) => {
   ).current;
 
   const hideDialog = () => {
-    /* axios
-      .patch(`/lamps/${lampData.lampId}`, {
-        lampName,
-        adjoiningPlace,
-      })
-      .then(function (response) {
-        console.log(response);
-        setVisible(false);
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
+    editLamp(
+      {
+        lampId: lampData?._id,
+        lampInfo: {
+          lampName,
+          location: clickCoordinates,
+          adjoiningPlace,
+        },
+      },
+      {
+        onSuccess: () => {
+          setVisible(false);
+        },
+      }
+    );
   };
   const hideDialog2 = () => {
     setVisible(false);
