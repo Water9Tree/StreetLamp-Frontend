@@ -77,7 +77,7 @@ const Setting = ({ navigation }: any) => {
         {items.slice(from, to).map((item, index) => {
           return (
             <DataTable.Row
-              key={item._id}
+              key={item.lampName}
               onPress={() => {
                 setSelectedItem(item);
               }}
@@ -89,7 +89,7 @@ const Setting = ({ navigation }: any) => {
                   mode="contained-tonal"
                   buttonColor="lightpink"
                   onPress={() => {
-                    axios.delete(`/lamps/${item._id}`);
+                    //axios.delete(`/lamps/${item._id}`);
                   }}
                 >
                   삭제

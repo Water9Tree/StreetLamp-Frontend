@@ -1,4 +1,4 @@
-export interface LampInfo {
+/* export interface LampInfo {
   _id: number;
   lampName: string;
   location: {
@@ -8,7 +8,7 @@ export interface LampInfo {
   adjoiningPlace: string;
   status: "light" | "dark";
   isFavorite: boolean;
-}
+} */
 
 export interface Notification {
   id: number;

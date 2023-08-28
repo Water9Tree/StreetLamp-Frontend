@@ -17,7 +17,8 @@ const MapMarker = ({
   const deviceWidth = Dimensions.get("window").width; // TODO 이미지 너비 기준으로 변경
   enum statusColor {
     "light" = "yellow",
-    "dark" = "dimgray",
+    "normal" = "darkgray",
+    "dark" = "gray",
   }
 
   return (
