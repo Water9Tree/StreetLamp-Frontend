@@ -53,8 +53,7 @@ function Main({ navigation }: any) {
           position: "relative",
         }}
       >
-        {status === "all" &&
-          lampInfos &&
+        {lampInfos &&
           lampInfos.map((lampInfo: any) => {
             return (
               <MapMarker

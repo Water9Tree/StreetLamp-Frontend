@@ -16,8 +16,8 @@ const MapMarker = ({
 }: MapMarkerProps) => {
   enum statusColor {
     "light" = "yellow",
-    "normal" = "darkgray",
-    "dark" = "gray",
+    "normal" = "palegreen",
+    "dark" = "darkgray",
   }
 
   return (

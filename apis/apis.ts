@@ -94,7 +94,7 @@ const useGetLampsQuery = ({ status }: { status?: LampStatus | null }) => {
     return axios.get(`/lamps`, { params: { status } }).then(({ data }) => data);
   };
 
-  return useQuery(["lamps"], fetcher);
+  return useQuery(["lamps", status], fetcher);
 };
 
 export {
