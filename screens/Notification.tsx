@@ -1,32 +1,46 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { List } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 import { notificationList } from "../apis/mock";
+import { Subscription } from "expo-notifications";
+import * as Notifications from "expo-notifications";
 
 const Notification = ({ navigation }: any) => {
+  const [notification, setNotification] = useState<string[]>([]);
+  const notificationListener = useRef<Subscription>();
+
+  useEffect(() => {
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        if (notification?.request?.content.body) {
+          setNotification((prev) => [
+            ...prev,
+            notification?.request?.content.body,
+          ]);
+        }
+      });
+  }, [notificationListener]);
+
+  console.log();
+
   return (
     <View style={styles.container}>
       <HeaderBar navigation={navigation} backScreen={"Main"} title={"알림"} />
       <List.Section style={{ marginVertical: 20 }}>
-        {notificationList.map((notification) => (
+        {notification.map((notification, index) => (
           <List.Item
             style={{
-              backgroundColor: notification.isNotRead ? "beige" : "white",
+              backgroundColor: "beige",
               height: 60,
               paddingHorizontal: 15,
             }}
             titleStyle={{
               fontSize: 18,
             }}
-            key={notification.id}
-            title={notification.content}
-            left={() => (
-              <List.Icon
-                color={notification.isNotRead ? "crimson" : ""}
-                icon="bell-outline"
-              />
-            )}
+            key={index}
+            title={notification}
+            left={() => <List.Icon color={"crimson"} icon="bell-outline" />}
           />
         ))}
       </List.Section>
