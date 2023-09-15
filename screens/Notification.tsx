@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { List } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 import { notificationList } from "../apis/mock";
@@ -7,16 +7,25 @@ import { Subscription } from "expo-notifications";
 import * as Notifications from "expo-notifications";
 
 const Notification = ({ navigation }: any) => {
-  const [notification, setNotification] = useState<string[]>([]);
+  //const [notification, setNotification] = useState<Notifications.Notification>();
+  const [notificationList, setNotificationList] = useState<
+    { title: string; body: string }[]
+  >([]);
   const notificationListener = useRef<Subscription>();
 
   useEffect(() => {
     notificationListener.current =
       Notifications.addNotificationReceivedListener((notification) => {
-        if (notification?.request?.content.body) {
-          setNotification((prev) => [
+        if (
+          notification?.request?.content?.title &&
+          notification?.request?.content?.body
+        ) {
+          setNotificationList((prev) => [
             ...prev,
-            notification?.request?.content.body,
+            {
+              title: String(notification.request.content.title),
+              body: String(notification.request.content.body),
+            },
           ]);
         }
       });
@@ -25,10 +34,10 @@ const Notification = ({ navigation }: any) => {
   console.log();
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <HeaderBar navigation={navigation} backScreen={"Main"} title={"알림"} />
       <List.Section style={{ marginVertical: 20 }}>
-        {notification.map((notification, index) => (
+        {notificationList.map((noti, index) => (
           <List.Item
             style={{
               backgroundColor: "beige",
@@ -39,12 +48,13 @@ const Notification = ({ navigation }: any) => {
               fontSize: 18,
             }}
             key={index}
-            title={notification}
+            title={noti.title}
+            description={noti.body}
             left={() => <List.Icon color={"crimson"} icon="bell-outline" />}
           />
         ))}
       </List.Section>
-    </View>
+    </ScrollView>
   );
 };
 
