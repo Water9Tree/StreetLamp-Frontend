@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { List } from "react-native-paper";
+import { Text, List, Switch } from "react-native-paper";
 import HeaderBar from "../components/HeaderBar";
 import { notificationList } from "../apis/mock";
 import { Subscription } from "expo-notifications";
 import * as Notifications from "expo-notifications";
+import PushConfirmModal from "./PushConfirmModal";
+import { useSetNotificationMutation } from "../apis/apis";
 
 const Notification = ({ navigation }: any) => {
   //const [notification, setNotification] = useState<Notifications.Notification>();
@@ -12,6 +14,20 @@ const Notification = ({ navigation }: any) => {
     { title: string; body: string }[]
   >([]);
   const notificationListener = useRef<Subscription>();
+
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const { mutate: setNotification } = useSetNotificationMutation();
+
+  const onToggleSwitch = () => {
+    if (!isSwitchOn) {
+      setIsSwitchOn(true);
+      setNotification({ isNotificationEnabled: true });
+      return;
+    }
+    setShowDeleteModal(true);
+  };
 
   useEffect(() => {
     notificationListener.current =
@@ -36,6 +52,19 @@ const Notification = ({ navigation }: any) => {
   return (
     <ScrollView style={styles.container}>
       <HeaderBar navigation={navigation} backScreen={"Main"} title={"알림"} />
+      <View
+        style={{
+          alignItems: "center",
+          backgroundColor: "#fff",
+          padding: 15,
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Text>앱 푸시</Text>
+        <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+      </View>
       <List.Section style={{ marginVertical: 20 }}>
         {notificationList.map((noti, index) => (
           <List.Item
@@ -54,6 +83,11 @@ const Notification = ({ navigation }: any) => {
           />
         ))}
       </List.Section>
+      <PushConfirmModal
+        visible={showDeleteModal}
+        setVisible={setShowDeleteModal}
+        setIsSwitchOn={setIsSwitchOn}
+      />
     </ScrollView>
   );
 };

@@ -97,6 +97,27 @@ const useGetLampsQuery = ({ status }: { status?: LampStatus | null }) => {
   return useQuery(["lamps", status], fetcher);
 };
 
+const useSetNotificationMutation = () => {
+  const getTokenState = useRecoilValue(tokenState);
+  const fetcher = ({
+    isNotificationEnabled,
+  }: {
+    isNotificationEnabled: boolean;
+  }) => {
+    return axios.put(
+      "/users/notification",
+      { body: isNotificationEnabled },
+      {
+        headers: {
+          Authorization: `Bearer ${getTokenState}`,
+        },
+      }
+    );
+  };
+
+  return useMutation(fetcher);
+};
+
 export {
   useSignUpMutation,
   useSignInMutation,
@@ -104,4 +125,5 @@ export {
   useUpdateLampMutation,
   useDeleteLampMutation,
   useGetLampsQuery,
+  useSetNotificationMutation,
 };
